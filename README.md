@@ -278,3 +278,4 @@ ALTER TABLE workshops ALTER COLUMN price DROP DEFAULT;
 The PR looks okay, so I approved it. 
 
 **4:30pm—Fished for now**
+See [demo video](https://youtu.be/lUCvoJtqzok).
