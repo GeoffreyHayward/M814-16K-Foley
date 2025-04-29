@@ -48,6 +48,39 @@ public class ReservationController {
 
     /**
      * Processes the form submission for creating a new reservation.
+     * Shows a booking summary before proceeding to payment.
+     *
+     * @param workshopId The ID of the workshop to reserve
+     * @param attendeeName The name of the attendee
+     * @param attendeeEmail The email of the attendee
+     * @param model The model to add attributes to
+     * @param redirectAttributes Attributes to add to the redirect
+     * @return The name of the view to render
+     */
+    @PostMapping("/create/{workshopId}")
+    public String showBookingSummary(
+            @PathVariable Integer workshopId,
+            @RequestParam String attendeeName,
+            @RequestParam String attendeeEmail,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        return workshopService.getWorkshopById(workshopId)
+                .filter(WorkshopDTO::isAvailable)
+                .map(workshop -> {
+                    model.addAttribute("workshop", workshop);
+                    model.addAttribute("attendeeName", attendeeName);
+                    model.addAttribute("attendeeEmail", attendeeEmail);
+                    return "reservations/summary";
+                })
+                .orElseGet(() -> {
+                    redirectAttributes.addFlashAttribute("error", "Workshop is no longer available.");
+                    return "redirect:/workshops";
+                });
+    }
+
+    /**
+     * Processes the payment and creates a new reservation.
      *
      * @param workshopId The ID of the workshop to reserve
      * @param attendeeName The name of the attendee
@@ -55,13 +88,15 @@ public class ReservationController {
      * @param redirectAttributes Attributes to add to the redirect
      * @return The name of the view to render
      */
-    @PostMapping("/create/{workshopId}")
-    public String createReservation(
-            @PathVariable Integer workshopId,
+    @PostMapping("/process-payment")
+    public String processPaymentAndCreateReservation(
+            @RequestParam Integer workshopId,
             @RequestParam String attendeeName,
             @RequestParam String attendeeEmail,
             RedirectAttributes redirectAttributes) {
-        
+
+        // In a real application, payment processing would happen here
+
         return reservationService.createReservation(workshopId, attendeeName, attendeeEmail)
                 .map(reservation -> {
                     redirectAttributes.addFlashAttribute("success", "Reservation created successfully!");
@@ -101,7 +136,7 @@ public class ReservationController {
     @GetMapping("/workshop/{workshopId}")
     public String listReservationsByWorkshop(@PathVariable Integer workshopId, Model model) {
         List<ReservationDTO> reservations = reservationService.getReservationsByWorkshopId(workshopId);
-        
+
         return workshopService.getWorkshopById(workshopId)
                 .map(workshop -> {
                     model.addAttribute("workshop", workshop);
@@ -138,13 +173,13 @@ public class ReservationController {
     @PostMapping("/cancel/{id}")
     public String cancelReservation(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         boolean canceled = reservationService.cancelReservation(id);
-        
+
         if (canceled) {
             redirectAttributes.addFlashAttribute("success", "Reservation canceled successfully!");
         } else {
             redirectAttributes.addFlashAttribute("error", "Reservation not found.");
         }
-        
+
         return "redirect:/workshops";
     }
 }

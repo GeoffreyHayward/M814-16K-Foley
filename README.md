@@ -46,13 +46,13 @@ Comments: [M814-ModuleChair] Add comments below, making sure to include your ini
 ```
 
 ## Timeline for the day:
-**9am - begin setting up the project**
+**9am—begin setting up the project**
 - Forced original repo
 - Adds SpringBoot via the Initializer.
 - Made README with Chat-GPT to have a goal.
 - Wrote the .junie/guidelines.md as an attempt to steer Junie's decisions.
 
-**11am - begin coding**
+**11am—begin coding**
 1. Ask Chat-GPT what would be a good starting point.
 ```text
 As you have read the requirements what REQ-ID do you think would be the best one to do first? At this point no code has been written, but Spring Boot has been set up. 
@@ -155,10 +155,10 @@ public class SecurityConfig {
 
 3. Happy to approve, as only testing and things look generally good. 
 
-**12:30pm - Lunchtime**
+**12:30pm—Lunchtime**
 Tasty.
 
-**1pm - Implement Workshop Reservation Feature**
+**1pm—Implement Workshop Reservation Feature**
 1. I asked Chat-GPT what to implment next.
 ```text
 You can assume REQ-ID: FR-32 is now implemented. What would you say is the next requirement to implement? 
@@ -202,7 +202,7 @@ It did forget to link on 'book now' button, to which I promoted `Not all book no
 
 Junie had also created the test, manual and developer guide. 
 
-**2pm - Check REQ-ID FR-2 PR**
+**2pm—Check REQ-ID FR-2 PR**
 The PR look okay, but I skimmed over it (of course I wouldn't do this for a real application). Looking at the PR, I noticed that there 
 could be a gap in the requirements, around canceling a workshop. The user manual says:
 ```markdown
@@ -236,4 +236,45 @@ This is a good starting place for a new requirement.
 
 Given the requirement was missing, I approved the PR. 
 
-**2:30pm - REQ-ID FR-16**
+**2:30pm—REQ-ID FR-16**
+I asked Chat-GPT:
+```text
+Okay, I'll look to add that to the backlog for team input. Given the current requirements, and now assuming FR-2 is done, what would be the next reasonable requirement to implement?  
+```
+Chat-GPT responded with:
+```text
+Next logical slice: implement REQ-ID FR-16 – “The product shall provide a booking summary before payment is made.” ...
+```
+So I asked Junie:
+```text
+Please  implement REQ-ID FR-16 – “The product shall provide a booking summary before payment is made.”
+```
+Junie made a small update but missed the need to update the DB table. So I provided Junie the exception message , and 
+it continued working on the requirement. Then running it again, I found it had made a type error. Again sending it the 
+exception message, Junie attempted to fix it again. But third time lucky, and the update is read for PR. 
+
+**3:00pm—Out of office**
+Not working on Walton Sustainability Centre.
+
+**4:00pm—Check FR-16 PR**
+I like that, Junie continued to add mock data. This indicates Junie has got a good grasp of what's what within this repo. 
+```sql
+-- Add price column to workshops table
+ALTER TABLE workshops ADD COLUMN price DECIMAL(10, 2) NOT NULL DEFAULT 0.00;
+
+-- Update existing workshops with sample prices
+UPDATE workshops SET price = 25.00 WHERE name = 'Sustainable Gardening Basics';
+UPDATE workshops SET price = 50.00 WHERE name = 'Solar Panel Installation';
+UPDATE workshops SET price = 35.00 WHERE name = 'Zero Waste Cooking';
+UPDATE workshops SET price = 45.00 WHERE name = 'Beekeeping for Beginners';
+UPDATE workshops SET price = 40.00 WHERE name = 'Rainwater Harvesting Systems';
+UPDATE workshops SET price = 30.00 WHERE name = 'Composting Techniques';
+UPDATE workshops SET price = 20.00 WHERE name = 'DIY Natural Cleaning Products';
+
+-- Remove the default constraint after updating existing records
+ALTER TABLE workshops ALTER COLUMN price DROP DEFAULT;
+```
+
+The PR looks okay, so I approved it. 
+
+**4:30pm—Fished for now**
