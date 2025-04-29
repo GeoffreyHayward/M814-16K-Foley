@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Workshop Reservations</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0">Workshop Reservations</h1>
+                        <span class="badge" 
+                              th:classappend="${workshop.available} ? 'bg-success' : 'bg-danger'"
+                              th:text="${workshop.available} ? 'Available' : 'Fully Booked'">Status</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5 class="text-muted">Workshop Details</h5>
+                        <p class="lead" th:text="${workshop.name}">Workshop Name</p>
+                        <p th:text="${workshop.formattedDateTime}">Date and Time</p>
+                        <p>
+                            <span th:text="${workshop.currentBookings}">0</span> / 
+                            <span th:text="${workshop.capacity}">0</span> spots booked
+                            (<span th:text="${workshop.availableSlots}">0</span> available)
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="text-muted">Reservations</h5>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Attendee Name</th>
+                                        <th>Attendee Email</th>
+                                        <th>Reservation Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="reservation : ${reservations}">
+                                        <td th:text="${reservation.id}">1</td>
+                                        <td th:text="${reservation.attendeeName}">John Doe</td>
+                                        <td th:text="${reservation.attendeeEmail}">john@example.com</td>
+                                        <td th:text="${reservation.formattedReservationDate}">Date</td>
+                                        <td>
+                                            <a th:href="@{/reservations/cancel/{id}(id=${reservation.id})}" 
+                                               class="btn btn-sm btn-outline-danger">
+                                                Cancel
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(reservations)}">
+                                        <td colspan="5" class="text-center">No reservations found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-outline-secondary">Back to Workshop</a>
+                        <a th:if="${workshop.available}" 
+                           th:href="@{/reservations/create/{id}(id=${workshop.id})}" 
+                           class="btn btn-success">Add Reservation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

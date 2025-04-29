@@ -17,12 +17,12 @@
                         <h2 class="h4" th:text="${workshop.name}">Workshop Name</h2>
                         <p class="text-muted" th:text="${workshop.formattedDateTime}">Date and Time</p>
                     </div>
-                    
+
                     <div class="alert" th:classappend="${isAvailable} ? 'alert-success' : 'alert-danger'">
                         <h3 class="h5" th:text="${isAvailable} ? 'This workshop is available!' : 'This workshop is fully booked'">
                             Availability Status
                         </h3>
-                        
+
                         <div th:if="${isAvailable}">
                             <p>
                                 There are currently <strong th:text="${availableSlots}">0</strong> slots available out of 
@@ -32,7 +32,7 @@
                                 <strong th:text="${workshop.currentBookings}">0</strong> spots have already been booked.
                             </p>
                         </div>
-                        
+
                         <div th:unless="${isAvailable}">
                             <p>
                                 All <strong th:text="${workshop.capacity}">0</strong> spots have been booked.
@@ -42,7 +42,7 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     <div class="mt-4">
                         <h4>Workshop Details</h4>
                         <p th:text="${workshop.description}">Description</p>
@@ -51,11 +51,11 @@
                 <div class="card-footer bg-transparent">
                     <div class="d-flex justify-content-between">
                         <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-outline-secondary">Back to Workshop Details</a>
-                        <a th:if="${isAvailable}" href="#" class="btn btn-success">Book Now</a>
+                        <a th:if="${isAvailable}" th:href="@{/reservations/create/{id}(id=${workshop.id})}" class="btn btn-success">Book Now</a>
                     </div>
                 </div>
             </div>
-            
+
             <div class="alert alert-warning" th:if="${workshop == null}">
                 <p>Workshop not found. Please go back to the workshops list.</p>
                 <a href="/workshops" class="btn btn-outline-secondary mt-2">Back to Workshops</a>

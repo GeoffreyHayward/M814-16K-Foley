@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Reserve Workshop</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h1 class="h3 mb-0">Reserve Workshop</h1>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5 class="text-muted">Workshop Details</h5>
+                        <p class="lead" th:text="${workshop.name}">Workshop Name</p>
+                        <p th:text="${workshop.formattedDateTime}">Date and Time</p>
+                        <p>
+                            <span th:text="${workshop.availableSlots}">0</span> slots available
+                        </p>
+                    </div>
+                    
+                    <form th:action="@{/reservations/create/{id}(id=${workshop.id})}" method="post">
+                        <div class="mb-3">
+                            <label for="attendeeName" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="attendeeName" name="attendeeName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="attendeeEmail" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="attendeeEmail" name="attendeeEmail" required>
+                            <div class="form-text">We'll send the confirmation to this email.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-success">Reserve Workshop</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
