@@ -21,6 +21,7 @@ public class WorkshopDTO {
     private Integer availableSlots;
     private boolean available;
     private boolean past;
+    private Double price;
 
     /**
      * Default constructor.
@@ -44,6 +45,7 @@ public class WorkshopDTO {
         this.availableSlots = workshop.getAvailableSlots();
         this.available = workshop.isAvailable();
         this.past = workshop.isPast();
+        this.price = workshop.getPrice();
     }
 
     /**
@@ -134,5 +136,13 @@ public class WorkshopDTO {
 
     public void setPast(boolean past) {
         this.past = past;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

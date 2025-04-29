@@ -58,7 +58,7 @@ public class Reservation {
 
     @Column(nullable = false)
     private LocalDateTime reservationDate;
-    
+
     // Constructors, getters, setters, equals, hashCode, toString
 }
 ```
@@ -92,7 +92,7 @@ public class ReservationDTO {
     private LocalDateTime reservationDate;
     private String formattedReservationDate;
     private String workshopDateTime;
-    
+
     // Constructors, getters, setters
 }
 ```
@@ -106,22 +106,22 @@ The `ReservationService` class contains the business logic:
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final WorkshopRepository workshopRepository;
-    
+
     // Constructor with dependency injection
-    
+
     // Methods for getting reservations
     public List<ReservationDTO> getAllReservations() { ... }
     public List<ReservationDTO> getReservationsByWorkshopId(Integer workshopId) { ... }
     public List<ReservationDTO> getReservationsByAttendeeEmail(String email) { ... }
     public Optional<ReservationDTO> getReservationById(Integer id) { ... }
-    
+
     // Methods for creating and canceling reservations
     @Transactional
     public Optional<ReservationDTO> createReservation(Integer workshopId, String attendeeName, String attendeeEmail) { ... }
-    
+
     @Transactional
     public boolean cancelReservation(Integer id) { ... }
-    
+
     // Method for counting reservations
     public long countReservationsByWorkshopId(Integer workshopId) { ... }
 }
@@ -142,28 +142,32 @@ The `ReservationController` class handles HTTP requests:
 public class ReservationController {
     private final ReservationService reservationService;
     private final WorkshopService workshopService;
-    
+
     // Constructor with dependency injection
-    
+
     // Endpoints for creating reservations
     @GetMapping("/create/{workshopId}")
     public String showReservationForm(@PathVariable Integer workshopId, Model model) { ... }
-    
+
     @PostMapping("/create/{workshopId}")
-    public String createReservation(@PathVariable Integer workshopId, @RequestParam String attendeeName, @RequestParam String attendeeEmail, RedirectAttributes redirectAttributes) { ... }
-    
+    public String showBookingSummary(@PathVariable Integer workshopId, @RequestParam String attendeeName, @RequestParam String attendeeEmail, Model model, RedirectAttributes redirectAttributes) { ... }
+
+    // Endpoint for processing payment and creating reservation
+    @PostMapping("/process-payment")
+    public String processPaymentAndCreateReservation(@RequestParam Integer workshopId, @RequestParam String attendeeName, @RequestParam String attendeeEmail, RedirectAttributes redirectAttributes) { ... }
+
     // Endpoint for showing confirmation
     @GetMapping("/confirmation/{id}")
     public String showConfirmation(@PathVariable Integer id, Model model) { ... }
-    
+
     // Endpoints for listing reservations
     @GetMapping("/workshop/{workshopId}")
     public String listReservationsByWorkshop(@PathVariable Integer workshopId, Model model) { ... }
-    
+
     // Endpoints for canceling reservations
     @GetMapping("/cancel/{id}")
     public String showCancelForm(@PathVariable Integer id, Model model) { ... }
-    
+
     @PostMapping("/cancel/{id}")
     public String cancelReservation(@PathVariable Integer id, RedirectAttributes redirectAttributes) { ... }
 }
@@ -174,9 +178,22 @@ public class ReservationController {
 The following Thymeleaf templates provide the user interface:
 
 - `reservations/create.html`: Form for creating a reservation
+- `reservations/summary.html`: Booking summary page before payment
 - `reservations/confirmation.html`: Confirmation page after successful reservation
 - `reservations/cancel.html`: Form for canceling a reservation
 - `reservations/list.html`: List of reservations for a workshop (for administrative purposes)
+
+## Reservation Flow
+
+The reservation process follows these steps:
+
+1. **Reservation Form**: The user fills out a form with their name and email.
+2. **Booking Summary**: The user is shown a summary of their booking details before proceeding to payment.
+3. **Payment Processing**: The user enters payment details and completes the payment.
+4. **Reservation Creation**: After successful payment, the reservation is created in the database.
+5. **Confirmation**: The user is shown a confirmation page with their reservation details.
+
+This flow ensures that users can review their booking details before making a payment, as required by FR-16.
 
 ## Integration with Workshop Feature
 
@@ -207,15 +224,15 @@ class ReservationServiceTest {
     void testGetReservationsByWorkshopId() { ... }
     void testGetReservationsByAttendeeEmail() { ... }
     void testGetReservationById() { ... }
-    
+
     // Tests for creating reservations
     void testCreateReservation_Available() { ... }
     void testCreateReservation_FullyBooked() { ... }
-    
+
     // Tests for canceling reservations
     void testCancelReservation() { ... }
     void testCancelReservation_NotFound() { ... }
-    
+
     // Test for counting reservations
     void testCountReservationsByWorkshopId() { ... }
 }

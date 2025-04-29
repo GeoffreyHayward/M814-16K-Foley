@@ -19,7 +19,13 @@ Once you've found a workshop you'd like to attend:
 3. Fill in the reservation form:
    - Enter your full name
    - Enter your email address (this will be used for confirmation)
-4. Click "Reserve Workshop" to complete your reservation.
+4. Click "Reserve Workshop" to proceed.
+5. Review your booking summary:
+   - Check the workshop details
+   - Verify your personal information
+   - Review the price
+6. Click "Proceed to Payment" to continue.
+7. Complete the payment process to finalize your reservation.
 
 ## Reservation Confirmation
 

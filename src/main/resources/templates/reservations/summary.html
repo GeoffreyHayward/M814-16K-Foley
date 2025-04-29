@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Booking Summary</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h1 class="h3 mb-0">Booking Summary</h1>
+                    <p class="text-muted mb-0">Please review your booking details before proceeding to payment</p>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5 class="text-muted">Workshop Details</h5>
+                        <p class="lead" th:text="${workshop.name}">Workshop Name</p>
+                        <p th:text="${workshop.formattedDateTime}">Date and Time</p>
+                        <p>
+                            <strong>Price:</strong> <span th:text="${'£' + #numbers.formatDecimal(workshop.price, 1, 2)}">£0.00</span>
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="text-muted">Attendee Information</h5>
+                        <p>
+                            <strong>Name:</strong> <span th:text="${attendeeName}">Attendee Name</span><br>
+                            <strong>Email:</strong> <span th:text="${attendeeEmail}">Attendee Email</span>
+                        </p>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <p>
+                            <i class="bi bi-info-circle"></i> Please review the information above carefully. 
+                            Once you proceed to payment, you will be asked to enter your payment details.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-outline-secondary">Cancel</a>
+                        <form th:action="@{/reservations/process-payment}" method="post">
+                            <input type="hidden" name="workshopId" th:value="${workshop.id}">
+                            <input type="hidden" name="attendeeName" th:value="${attendeeName}">
+                            <input type="hidden" name="attendeeEmail" th:value="${attendeeEmail}">
+                            <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

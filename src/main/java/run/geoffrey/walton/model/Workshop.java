@@ -32,6 +32,9 @@ public class Workshop {
     @Column(nullable = false)
     private Integer currentBookings;
 
+    @Column(nullable = false)
+    private Double price;
+
     /**
      * Default constructor required by JPA.
      */
@@ -46,13 +49,15 @@ public class Workshop {
      * @param dateTime        The date and time when the workshop will take place
      * @param capacity        The maximum number of participants
      * @param currentBookings The current number of bookings
+     * @param price           The price of the workshop
      */
-    public Workshop(String name, String description, LocalDateTime dateTime, Integer capacity, Integer currentBookings) {
+    public Workshop(String name, String description, LocalDateTime dateTime, Integer capacity, Integer currentBookings, Double price) {
         this.name = name;
         this.description = description;
         this.dateTime = dateTime;
         this.capacity = capacity;
         this.currentBookings = currentBookings;
+        this.price = price;
     }
 
     /**
@@ -130,6 +135,14 @@ public class Workshop {
 
     public void setCurrentBookings(Integer currentBookings) {
         this.currentBookings = currentBookings;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override
