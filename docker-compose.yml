@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:16-alpine
+    container_name: walton-sustainability-centre-postgres
+    environment:
+      POSTGRES_DB: walton-sustainability-centre
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"

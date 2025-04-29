@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Workshop Details</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm" th:if="${workshop != null}"
+                 th:classappend="${workshop.past} ? 'past' : (${workshop.available} ? 'available' : 'unavailable')">
+                <div class="card-header bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0" th:text="${workshop.name}">Workshop Name</h1>
+                        <div>
+                            <span class="badge" 
+                                  th:if="${workshop.past}" 
+                                  th:classappend="'bg-secondary'"
+                                  th:text="'Past Workshop'">Status</span>
+                            <span class="badge" 
+                                  th:unless="${workshop.past}" 
+                                  th:classappend="${workshop.available} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${workshop.available} ? 'Available' : 'Fully Booked'">Status</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5 class="text-muted">Date and Time</h5>
+                        <p class="lead" th:text="${workshop.formattedDateTime}">Date and Time</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="text-muted">Description</h5>
+                        <p th:text="${workshop.description}">Description</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="text-muted">Capacity</h5>
+                        <p>
+                            <span th:text="${workshop.currentBookings}">0</span> / 
+                            <span th:text="${workshop.capacity}">0</span> spots booked
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4" th:if="${!workshop.past}">
+                        <h5 class="text-muted">Availability</h5>
+                        <div th:if="${workshop.available}" class="alert alert-success">
+                            <p>
+                                <strong>This workshop is available for booking!</strong><br>
+                                There are <span th:text="${workshop.availableSlots}">0</span> slots available.
+                            </p>
+                        </div>
+                        <div th:unless="${workshop.available}" class="alert alert-danger">
+                            <p>
+                                <strong>This workshop is fully booked.</strong><br>
+                                There are no available slots at the moment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a href="/workshops" class="btn btn-outline-secondary">Back to Workshops</a>
+                        <a th:if="${!workshop.past && workshop.available}" 
+                           href="#" 
+                           class="btn btn-success">Book Now</a>
+                        <a th:if="${!workshop.past}" 
+                           th:href="@{/workshops/{id}/availability(id=${workshop.id})}" 
+                           class="btn btn-outline-primary">Check Availability</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-warning" th:if="${workshop == null}">
+                <p>Workshop not found. Please go back to the workshops list.</p>
+                <a href="/workshops" class="btn btn-outline-secondary mt-2">Back to Workshops</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
