@@ -156,3 +156,84 @@ public class SecurityConfig {
 3. Happy to approve, as only testing and things look generally good. 
 
 **12:30pm - Lunchtime**
+Tasty.
+
+**1pm - Implement Workshop Reservation Feature**
+1. I asked Chat-GPT what to implment next.
+```text
+You can assume REQ-ID: FR-32 is now implemented. What would you say is the next requirement to implement? 
+```
+And Chat-GPT replayed with:
+```text
+Tackle REQ-ID FR-2 – “The product shall be able to reserve a chosen workshop.” ...
+```
+I then asked Junie:
+```text
+Please implement REQ-ID FR-2 – “The product shall be able to reserve a chosen workshop.” Feel free to add additional mock data to the database as needed.
+```
+And Junie wrote/updated the following files:
+```text
+developer-guide/workshop-reservation.md
+src/main/java/run/geoffrey/walton/controller/ReservationController.java
+src/main/java/run/geoffrey/walton/dto/ReservationDTO.java
+src/main/java/run/geoffrey/walton/model/Reservation.java
+src/main/java/run/geoffrey/walton/repository/ReservationRepository.java
+src/main/java/run/geoffrey/walton/service/ReservationService.java
+src/main/resources/db/migration/V2__Create_reservations_table.sql
+src/main/resources/templates/reservations/cancel.html
+developer-guide/workshop-reservation.md
+src/main/java/run/geoffrey/walton/controller/ReservationController.java
+src/main/java/run/geoffrey/walton/dto/ReservationDTO.java
+src/main/java/run/geoffrey/walton/model/Reservation.java
+src/main/java/run/geoffrey/walton/repository/ReservationRepository.java
+src/main/java/run/geoffrey/walton/service/ReservationService.java
+src/main/resources/db/migration/V2__Create_reservations_table.sql
+src/main/resources/templates/reservations/cancel.html
+src/main/resources/templates/reservations/confirmation.html
+src/main/resources/templates/reservations/create.html
+src/main/resources/templates/reservations/list.html
+src/main/resources/templates/workshops/availability.html
+src/main/resources/templates/workshops/detail.html
+src/test/java/run/geoffrey/walton/service/ReservationServiceTest.java
+user-manual/workshop-reservation.md
+
+```
+It did forget to link on 'book now' button, to which I promoted `Not all book now buttons have been updated` and Junie fixed it.
+
+Junie had also created the test, manual and developer guide. 
+
+**2pm - Check REQ-ID FR-2 PR**
+The PR look okay, but I skimmed over it (of course I wouldn't do this for a real application). Looking at the PR, I noticed that there 
+could be a gap in the requirements, around canceling a workshop. The user manual says:
+```markdown
+## Canceling a Reservation
+
+If you need to cancel your reservation:
+
+1. From the confirmation page, click the "Cancel Reservation" button.
+2. On the cancellation page, review the details of your reservation.
+3. Click "Confirm Cancellation" to cancel your reservation.
+4. Your spot will be made available to others.
+```
+But, this button is only available on the booking conformation page. So I asked Chat-GPT:
+```text
+Given the reequipments, is there a requirement for viewing my bookings?
+```
+And Chat-GPT responded:
+```text
+The current specification stops at FR-32, and none of the listed functional requirements covers “let a customer view all their existing workshop bookings”.
+```
+I asked Chat-GPT to write the requirement, and it responded with:
+```text
+REQ-ID: FR-33 
+Description: The product shall allow a customer to view a list of their current and past workshop bookings. 
+Type: Functional requirement 
+Rationale: Customers need to check their reservations, prepare for attendance and request changes without contacting staff. 
+Originator: [Your Name] - Software Engineer Comments: Provides a self-service “My Bookings” view; presumes customer authentication is in place.
+Comments:
+```
+This is a good starting place for a new requirement. 
+
+Given the requirement was missing, I approved the PR. 
+
+**2:30pm - Todo**

@@ -30,12 +30,12 @@
                         <h5 class="text-muted">Date and Time</h5>
                         <p class="lead" th:text="${workshop.formattedDateTime}">Date and Time</p>
                     </div>
-                    
+
                     <div class="mb-4">
                         <h5 class="text-muted">Description</h5>
                         <p th:text="${workshop.description}">Description</p>
                     </div>
-                    
+
                     <div class="mb-4">
                         <h5 class="text-muted">Capacity</h5>
                         <p>
@@ -43,7 +43,7 @@
                             <span th:text="${workshop.capacity}">0</span> spots booked
                         </p>
                     </div>
-                    
+
                     <div class="mb-4" th:if="${!workshop.past}">
                         <h5 class="text-muted">Availability</h5>
                         <div th:if="${workshop.available}" class="alert alert-success">
@@ -64,7 +64,7 @@
                     <div class="d-flex justify-content-between">
                         <a href="/workshops" class="btn btn-outline-secondary">Back to Workshops</a>
                         <a th:if="${!workshop.past && workshop.available}" 
-                           href="#" 
+                           th:href="@{/reservations/create/{id}(id=${workshop.id})}" 
                            class="btn btn-success">Book Now</a>
                         <a th:if="${!workshop.past}" 
                            th:href="@{/workshops/{id}/availability(id=${workshop.id})}" 
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="alert alert-warning" th:if="${workshop == null}">
                 <p>Workshop not found. Please go back to the workshops list.</p>
                 <a href="/workshops" class="btn btn-outline-secondary mt-2">Back to Workshops</a>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Cancel Reservation</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h1 class="h3 mb-0">Cancel Reservation</h1>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning mb-4">
+                        <p>
+                            <strong>Are you sure you want to cancel this reservation?</strong><br>
+                            This action cannot be undone. If you cancel, your spot will be made available to others.
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="text-muted">Workshop Details</h5>
+                        <p class="lead" th:text="${reservation.workshopName}">Workshop Name</p>
+                        <p th:text="${reservation.workshopDateTime}">Date and Time</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="text-muted">Attendee Information</h5>
+                        <p>
+                            <strong>Name:</strong> <span th:text="${reservation.attendeeName}">Attendee Name</span><br>
+                            <strong>Email:</strong> <span th:text="${reservation.attendeeEmail}">Attendee Email</span>
+                        </p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="text-muted">Reservation Details</h5>
+                        <p>
+                            <strong>Reservation ID:</strong> <span th:text="${reservation.id}">123</span><br>
+                            <strong>Reservation Date:</strong> <span th:text="${reservation.formattedReservationDate}">Date</span>
+                        </p>
+                    </div>
+                    
+                    <form th:action="@{/reservations/cancel/{id}(id=${reservation.id})}" method="post">
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/workshops}" class="btn btn-outline-secondary">Keep Reservation</a>
+                            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
