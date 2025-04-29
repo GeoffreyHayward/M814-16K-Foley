@@ -21,9 +21,6 @@ through practical, hands-on workshops. The Centre:
 - **Produces routine and ad-hoc management reports** for staff, trustees and auditors.
 - **Ensures full compliance with the UK Data Protection Act**, enforcing strict access controls around personal and payment data.
 
-This repository holds the functional and non-functional requirements for the information system that automates those day-to-day operations.
-Feel free to drop this block straight into your README.md to give contributors a clear, concise sense of what
-
 | Note                                                                     |
 |--------------------------------------------------------------------------|
 | Chat-GPT managed to glean this description by scanning the requirements. |
