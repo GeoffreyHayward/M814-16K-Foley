@@ -29,8 +29,8 @@ through practical, hands-on workshops. The Centre:
 
 | Scope | Location | Format |
 |-------|----------|--------|
-| **Functional requirements** | `WaltonSustainabilityCentre-Requirements.txt` (repository root) | Single plain-text file, one requirement per “REQ-ID” entry. :contentReference[oaicite:0]{index=0} |
-| **Non-functional requirements** | `NonfunctionalRequirements/` | Folder of plain-text files (`NFR-x-*.txt`), one file per requirement plus a template for new items. :contentReference[oaicite:1]{index=1} |
+| **Functional requirements** | `WaltonSustainabilityCentre-Requirements.txt` (repository root) | Single plain-text file, one requirement per “REQ-ID” entry. |
+| **Non-functional requirements** | `NonfunctionalRequirements/` | Folder of plain-text files (`NFR-x-*.txt`), one file per requirement plus a template for new items. |
 
 Both sets are human-readable text so they can be diffed and reviewed like code. Any future updates should follow the same 
 naming conventions (see example below) to keep the documentation consistent.
@@ -44,5 +44,3 @@ Fit Criterion:
 Originator:
 Comments: [M814-ModuleChair] Add comments below, making sure to include your initials in [] at the start.
 ```
-
-::contentReference[oaicite:2]{index=2}
