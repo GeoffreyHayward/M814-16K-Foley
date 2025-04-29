@@ -44,3 +44,115 @@ Fit Criterion:
 Originator:
 Comments: [M814-ModuleChair] Add comments below, making sure to include your initials in [] at the start.
 ```
+
+## Timeline for the day:
+**9am - begin setting up the project**
+- Forced original repo
+- Adds SpringBoot via the Initializer.
+- Made README with Chat-GPT to have a goal.
+- Wrote the .junie/guidelines.md as an attempt to steer Junie's decisions.
+
+**11am - begin coding**
+1. Ask Chat-GPT what would be a good starting point.
+```text
+As you have read the requirements what REQ-ID do you think would be the best one to do first? At this point no code has been written, but Spring Boot has been set up. 
+```
+It responded with:
+```text
+Start with REQ-ID `FR-32 – “The product shall check the availability of the workshop.”...
+```
+I then asked Junie:
+```text
+Please implement REQ-ID: FR-32. As this project is new, you may add demo data so that workshops that are not in the past are displayed and indicate whether they are available or not, as per the requirement.
+```
+Junie then wrote the following files in the order given (top-down):
+- application.properties
+- The Workshop Entiey
+- The Workshop Repository
+- The Workshop DTO
+- The Workshop Service
+- The Workshop Controller
+- main.html (a base UI layout)
+- The Workshops list.html
+- The Workshop available.html
+- The Workshop details.html
+- The Workshop availability.html
+- A HomeController
+- a home.html (homepage)
+- V1_Create_workshops_table (flyway migration script) 
+- (and then I didn't note anymore)
+
+The full list of changes can be found [here](https://github.com/GeoffreyHayward/M814-16K-Foley/pull/1)
+
+Here are the tests it added:
+Here are the test method names from the image:
+- testGetAvailableWorkshops()
+- testGetAllWorkshops()
+- testIsWorkshopAvailable()
+- testGetUpcomingWorkshops()
+- testGetAvailableSlots()
+- testGetPastWorkshops()
+- testGetWorkshopById()
+- testGetFullyBookedWorkshops()
+
+And running the application, I got a working website. Here is the homepage:
+
+![screenshot-1.png](images/screenshot-1.png)
+
+Junie also added a developer guide Markdown file and a user manual Markdown file.
+
+**12pm - check the PR I created from Junie's work **
+Here are my notes:
+1. Oddly it disabled CSRF, I allow it, but keep an eye on this.
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    /**
+     * Configures the security filter chain.
+     * For now, we're disabling CSRF protection and allowing all requests without authentication.
+     *
+     * @param http The HttpSecurity to configure
+     * @return The configured SecurityFilterChain
+     * @throws Exception If an error occurs during configuration
+     */
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
+            );
+
+        return http.build();
+    }
+}
+```
+
+2. It added some inline CSS in the main.html, I allow it for now (as only a test).
+```html
+<!-- Custom CSS -->
+    <style>
+        .workshop-card {
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        .workshop-card:hover {
+            transform: translateY(-5px);
+        }
+        .available {
+            border-left: 5px solid #28a745;
+        }
+        .unavailable {
+            border-left: 5px solid #dc3545;
+        }
+        .past {
+            border-left: 5px solid #6c757d;
+        }
+    </style>
+```
+
+3. Happy to approve, as only testing and things look generally good. 
+
+**12:30pm - Lunchtime**

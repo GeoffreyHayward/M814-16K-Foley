@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>All Workshops</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="mb-4">Workshops at Walton Sustainability Centre</h1>
+    
+    <!-- Upcoming Workshops Section -->
+    <section class="mb-5">
+        <h2 class="mb-3">Upcoming Workshops</h2>
+        
+        <div class="row g-4" th:if="${not #lists.isEmpty(upcomingWorkshops)}">
+            <div class="col-md-6 col-lg-4" th:each="workshop : ${upcomingWorkshops}">
+                <div class="card workshop-card shadow-sm" 
+                     th:classappend="${workshop.available} ? 'available' : 'unavailable'">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${workshop.name}">Workshop Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${workshop.formattedDateTime}">Date and Time</h6>
+                        <p class="card-text" th:text="${#strings.abbreviate(workshop.description, 100)}">Description</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge" th:classappend="${workshop.available} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${workshop.available} ? 'Available' : 'Fully Booked'">Status</span>
+                            <span class="text-muted" th:if="${workshop.available}" 
+                                  th:text="${workshop.availableSlots} + ' slots left'">Slots</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-sm btn-outline-primary">Details</a>
+                            <a th:href="@{/workshops/{id}/availability(id=${workshop.id})}" 
+                               class="btn btn-sm btn-outline-success">Check Availability</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info" th:if="${#lists.isEmpty(upcomingWorkshops)}">
+            <p>There are no upcoming workshops scheduled at the moment. Please check back later!</p>
+        </div>
+    </section>
+    
+    <!-- Past Workshops Section -->
+    <section>
+        <h2 class="mb-3">Past Workshops</h2>
+        
+        <div class="row g-4" th:if="${not #lists.isEmpty(pastWorkshops)}">
+            <div class="col-md-6 col-lg-4" th:each="workshop : ${pastWorkshops}">
+                <div class="card workshop-card shadow-sm past">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${workshop.name}">Workshop Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${workshop.formattedDateTime}">Date and Time</h6>
+                        <p class="card-text" th:text="${#strings.abbreviate(workshop.description, 100)}">Description</p>
+                        <span class="badge bg-secondary">Past Workshop</span>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-sm btn-outline-secondary">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info" th:if="${#lists.isEmpty(pastWorkshops)}">
+            <p>There are no past workshops to display.</p>
+        </div>
+    </section>
+</div>
+</body>
+</html>

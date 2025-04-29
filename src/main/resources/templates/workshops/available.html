@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Available Workshops</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="mb-4">Available Workshops</h1>
+    
+    <div class="alert alert-info mb-4">
+        <p>
+            <i class="bi bi-info-circle"></i> 
+            These workshops have open slots and are available for booking. Click on "Check Availability" to see the exact number of available slots.
+        </p>
+    </div>
+    
+    <div class="row g-4" th:if="${not #lists.isEmpty(workshops)}">
+        <div class="col-md-6 col-lg-4" th:each="workshop : ${workshops}">
+            <div class="card workshop-card shadow-sm available">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${workshop.name}">Workshop Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${workshop.formattedDateTime}">Date and Time</h6>
+                    <p class="card-text" th:text="${#strings.abbreviate(workshop.description, 100)}">Description</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-success">Available</span>
+                        <span class="text-muted" th:text="${workshop.availableSlots} + ' slots left'">Slots</span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/workshops/{id}(id=${workshop.id})}" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a th:href="@{/workshops/{id}/availability(id=${workshop.id})}" 
+                           class="btn btn-sm btn-outline-success">Check Availability</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="alert alert-warning" th:if="${#lists.isEmpty(workshops)}">
+        <p>There are no available workshops at the moment. Please check back later!</p>
+    </div>
+    
+    <div class="mt-4">
+        <a href="/workshops" class="btn btn-outline-secondary">View All Workshops</a>
+    </div>
+</div>
+</body>
+</html>

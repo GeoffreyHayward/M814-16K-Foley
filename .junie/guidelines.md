@@ -13,6 +13,7 @@ All requirements are kept within this repository.
   - Feel free to add and edit requirements when you see gaps. You are also free to add comments to requirements in the corresponding `Comments:` section (Comment as `Junin AI` within the commenter name block).
   - Also look for and apply all relevant non-functional requirements.
     - And append, as a list each non-functional that was applied, to the written functional requirement.
+- For now, mock all external endpoints, except the Database.
 
 ## Important Architectural Principles
 
