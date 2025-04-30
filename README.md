@@ -104,6 +104,7 @@ And running the application, I got a working website. Here is the homepage:
 Junie also added a developer guide Markdown file and a user manual Markdown file.
 
 **12pm—check the PR I created from Junie's work**
+
 Here are my notes:
 1. Oddly it disabled CSRF, I allow it, but keep an eye on this.
 ```java
@@ -162,6 +163,7 @@ public class SecurityConfig {
 Tasty.
 
 **1pm—Implement Workshop Reservation Feature**
+
 1. I asked Chat-GPT what to implment next.
 ```text
 You can assume REQ-ID: FR-32 is now implemented. What would you say is the next requirement to implement? 
@@ -259,6 +261,7 @@ it continued working on the requirement. Then running it again, I found it had m
 exception message, Junie attempted to fix it again. But third time lucky, and the update is read for PR. 
 
 **3:00pm—Out of office**
+
 Not working on Walton Sustainability Centre.
 
 **4:00pm—Check FR-16 PR**
