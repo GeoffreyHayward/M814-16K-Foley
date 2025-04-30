@@ -103,7 +103,7 @@ And running the application, I got a working website. Here is the homepage:
 
 Junie also added a developer guide Markdown file and a user manual Markdown file.
 
-**12pm - check the PR I created from Junie's work **
+**12pm—check the PR I created from Junie's work**
 Here are my notes:
 1. Oddly it disabled CSRF, I allow it, but keep an eye on this.
 ```java
