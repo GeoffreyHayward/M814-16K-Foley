@@ -203,7 +203,7 @@ src/test/java/run/geoffrey/walton/service/ReservationServiceTest.java
 user-manual/workshop-reservation.md
 
 ```
-It did forget to link on 'book now' button, to which I promoted `Not all book now buttons have been updated` and Junie fixed it.
+It did forget to link one 'book now' button, to which I promoted `Not all book now buttons have been updated` and Junie fixed it.
 
 Junie had also created the test, manual and developer guide. 
 
